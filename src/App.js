@@ -1,22 +1,32 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    axios.get("/users").then((response) => {
+      console.log(response.data);
+      setUsers(
+        <div class="row">
+          {response.data._embedded.users.map((user) => (
+            <div key={user} id="userid">
+            <p>{user.username}  {user.nickname}</p>
+            </div>
+          ))}
+        </div>
+      );
+    });
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <div class="container">
+      <h2>Users list</h2>
+        <hr class="solid" />
+        {users}
+      </div>
       </header>
     </div>
   );
