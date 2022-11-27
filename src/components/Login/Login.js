@@ -11,7 +11,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("userID")) {
-        window.location = "/";
+      window.location = "/";
     }
   }, []);
 
@@ -23,22 +23,17 @@ const Login = () => {
         password: password,
       })
       .then((response) => {
-        if (response.data === "Login failed") {
-          setDangerWarningBannerDiv(
-            <DangerWarningBanner msg="Wrong email and password combination" />
-          );
-        } else if (response.data === "Email not registered") {
-          setDangerWarningBannerDiv(
-            <DangerWarningBanner msg="Email is not registered" />
-          );
-        } else {
-          localStorage.setItem("userID", response.data.userID);
-          localStorage.setItem("userName", response.data.userName);
+        if (response.status === 200) {
+          localStorage.setItem("user_id", response.data.id);
+          localStorage.setItem("username", response.data.username);
+          localStorage.setItem("nickname", response.data.nickname);
           window.location = "/";
         }
       })
       .catch((error) => {
-        console.log(error);
+        setDangerWarningBannerDiv(
+            <DangerWarningBanner msg="Invalid credentials" />
+          );
       });
   }
 
@@ -77,7 +72,7 @@ const Login = () => {
             </Form.Group>
             <br />
             <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="d-flex justify-content-start">
+              <Form.Label className="d-flex justify-content-start">
                 Password
               </Form.Label>
               <Form.Control

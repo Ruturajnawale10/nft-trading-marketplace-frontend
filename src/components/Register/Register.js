@@ -38,7 +38,7 @@ class Register extends Component {
     console.log(user)
 
     if(validPassword.test(password)){
-    axios.post("/users", {
+    axios.post("/user/register", {
       username: email,
       password: password,
       nickname: nickname
