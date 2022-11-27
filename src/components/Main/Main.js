@@ -4,6 +4,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
 import Logout from "../Logout/Logout";
+import NFTBuyList from "../NFT/NFTBuyList";
 
 class Main extends Component {
     render() {
@@ -11,9 +12,10 @@ class Main extends Component {
         <div>
         <Navbar/>
             <Routes>  
+              <Route path="/" element={<NFTBuyList/>}/>
               <Route path="/user/register" element={< Register/>} />
               <Route path="/user/login" element={< Login/>} />
-              <Route path="user/logout" element={<Logout/>}/>
+              <Route path="/user/logout" element={<Logout/>}/>
             </Routes>
         </div>
       );
