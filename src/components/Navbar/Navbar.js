@@ -24,6 +24,7 @@ class Navbar extends Component {
   }
   render() {
     let loggedInDiv = null;
+    let walletDiv = null;
     let loggedOutDiv = null;
     if (localStorage.getItem("user_id")) {
       loggedOutDiv = (
@@ -31,6 +32,13 @@ class Navbar extends Component {
           <NavButtonLink to="/user/logout">Logout</NavButtonLink>
         </NavButton>
       );
+
+      walletDiv = (
+        <NavButton>
+          <NavButtonLink to="/wallet">Wallet</NavButtonLink>
+        </NavButton>
+      );
+
     } else {
       loggedOutDiv = (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -52,6 +60,7 @@ class Navbar extends Component {
           {localStorage.getItem("token") && <NavbarLink onClick={this.handleProfileClick} to="/profile">Profile</NavbarLink>}
           {localStorage.getItem("token") && <NavbarLink to="/messages">My Messages</NavbarLink>}
         </NavMenu>
+        {walletDiv}
         {loggedInDiv}
         {loggedOutDiv}
       </Nav>
