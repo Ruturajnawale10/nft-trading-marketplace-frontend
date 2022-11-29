@@ -8,6 +8,8 @@ function Wallet() {
   const [balance, setBalance] = useState({ btcbalance: 0.0, ethbalance: 0.0 });
   const [btc, setbtc] = useState(0);
   const [eth, seteth] = useState(0);
+  const [btc_withdraw, setbtc_withdraw] = useState(0);
+  const [eth_withdraw, seteth_withdraw] = useState(0);
   const [warningBannerDiv, setWarningBannerDiv] = useState(null);
 
   useEffect(() => {
@@ -36,8 +38,8 @@ function Wallet() {
 
   const onDepositClick = (e) => {
     if (
-      (btc === 0 && e.target.id == "btc") ||
-      (eth === 0 && e.target.id == "eth")
+      (btc === 0 && e.target.id === "btc") ||
+      (eth === 0 && e.target.id === "eth")
     ) {
       setWarningBannerDiv(<WarningBanner msg={"Amount should be non-zero"} />);
       return;
@@ -48,6 +50,28 @@ function Wallet() {
         walletID: localStorage.getItem("wallet_id"),
         btc: btc,
         eth: eth,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          window.location.reload(false);
+        }
+      });
+  };
+
+  const onWithdrawClick = (e) => {
+    if (
+      (btc_withdraw > balance.btcbalance && e.target.id === "btc2") ||
+      (eth_withdraw > balance.ethbalance && e.target.id === "eth2")
+    ) {
+      setWarningBannerDiv(<WarningBanner msg={"Withdrawing amount should be less than available balance"} />);
+      return;
+    }
+
+    axios
+      .post("/wallet/balance/withdraw", {
+        walletID: localStorage.getItem("wallet_id"),
+        btc: btc_withdraw,
+        eth: eth_withdraw,
       })
       .then((response) => {
         if (response.status === 200) {
@@ -117,6 +141,66 @@ function Wallet() {
                     onClick={onDepositClick}
                   >
                     Deposit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="row">
+            <div className="col-md-8">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">BTC</span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  onChange={(e) => {
+                    setbtc_withdraw(e.target.value);
+                  }}
+                  placeholder="0.00"
+                />
+                <div class="input-group-append">
+                  <button
+                    id="btc2"
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onClick={onWithdrawClick}
+                  >
+                    Withdraw
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="row">
+            <div className="col-md-8">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">ETH</span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  onChange={(e) => {
+                    seteth_withdraw(e.target.value);
+                  }}
+                  placeholder="0.00"
+                />
+                <div class="input-group-append">
+                  <button
+                    id="eth2"
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onClick={onWithdrawClick}
+                  >
+                    Withdraw
                   </button>
                 </div>
               </div>
