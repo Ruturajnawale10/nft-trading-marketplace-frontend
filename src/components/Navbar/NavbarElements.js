@@ -128,19 +128,19 @@ export const NavButton = styled.nav`
 
 export const NavButtonLink = styled(Link)`
   border-radius: 4px;
-  background: #256ce1;
+  background: #2badd9;
   padding: 10px 22px;
   color: #fff;
   outline: none;
-  border: none;
+  border: 2px solid #2badd9;
+  border-color: #2badd9;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   /* Second Nav */
   margin-left: 24px;
   &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #010606;
+    color:#2badd9;
+    background: #ededed;
   }
 `;

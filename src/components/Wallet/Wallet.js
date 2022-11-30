@@ -4,6 +4,7 @@ import "../../App.css";
 import "./Wallet.css";
 import { NavButton, NavButtonLink } from "../Navbar/NavbarElements";
 import WarningBanner from "../WarningBanners/WarningBanner";
+import $ from "jquery";
 
 function Wallet() {
   const [balance, setBalance] = useState({ btcbalance: 0.0, ethbalance: 0.0 });
@@ -12,6 +13,12 @@ function Wallet() {
   const [btc_withdraw, setbtc_withdraw] = useState(0);
   const [eth_withdraw, seteth_withdraw] = useState(0);
   const [warningBannerDiv, setWarningBannerDiv] = useState(null);
+
+  const [name, setName] = useState(null);
+  const [type, setType] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
+  const [assetURL, setAssetURL] = useState(null);
 
   useEffect(() => {
     if (localStorage.getItem("wallet_id") == null) {
@@ -85,6 +92,26 @@ function Wallet() {
       });
   };
 
+  const expand = () => {
+    if (name && type && description && imageURL && assetURL) {
+      axios
+        .post("/nft/create", {
+          walletID: localStorage.getItem("wallet_id"),
+          name: name,
+          type: type,
+          description: description,
+          imageURL: imageURL,
+          assetURL: assetURL
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            window.location.reload(false);
+          }
+        });
+    } else {
+      $(".js-hiddenform").slideDown();
+    }
+  };
   return (
     <div class="container">
       <div class="row">{warningBannerDiv}</div>
@@ -97,7 +124,9 @@ function Wallet() {
             <div className="col-md-8">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">BTC</span>
+                  <span id="btc" class="input-group-text">
+                    BTC
+                  </span>
                 </div>
                 <input
                   type="text"
@@ -128,7 +157,9 @@ function Wallet() {
             <div className="col-md-8">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">ETH</span>
+                  <span id="btc" class="input-group-text">
+                    ETH
+                  </span>
                 </div>
                 <input
                   type="text"
@@ -159,7 +190,9 @@ function Wallet() {
             <div className="col-md-8">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">BTC</span>
+                  <span id="btc" class="input-group-text">
+                    BTC
+                  </span>
                 </div>
                 <input
                   type="text"
@@ -188,7 +221,9 @@ function Wallet() {
             <div className="col-md-8">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">ETH</span>
+                  <span id="btc" class="input-group-text">
+                    ETH
+                  </span>
                 </div>
                 <input
                   type="text"
@@ -215,18 +250,77 @@ function Wallet() {
       </div>
       <hr />
       <div className="row">
-        <NavButton>
-          <NavButtonLink>Create new NFT</NavButtonLink>
-        </NavButton>
+        <div class="form-container">
+          <div class="js-hiddenform">
+            <div class="half-width">
+              Name
+              <input
+                type="text"
+                class="form-field"
+                placeholder="Name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+            <div class="half-width">
+              Type
+              <input
+                type="text"
+                class="form-field"
+                placeholder="Type"
+                onChange={(e) => {
+                  setType(e.target.value);
+                }}
+              />
+            </div>
+            <div class="half-width">
+              Description
+              <input
+                type="text"
+                class=" form-field"
+                placeholder="Description"
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              />
+            </div>
+            <div class="half-width">
+              Image URL
+              <input
+                type="text"
+                class=" form-field"
+                placeholder="Image URL"
+                onChange={(e) => {
+                  setImageURL(e.target.value);
+                }}
+              />
+            </div>
+
+            <div class="half-width">
+              Asset URL
+              <input
+                type="text"
+                class=" form-field"
+                placeholder="Asset URL"
+                onChange={(e) => {
+                  setAssetURL(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          id="submit"
+          class="submit js-expand"
+          value="Create an NFT"
+          onClick={expand}
+        ></input>
       </div>
       <div className="row">
-       {/* todo: use map function to create tables */}
-        <div className="row">
-          nft1
-        </div>
-        <div className="row">
-          nft2
-        </div>
+        {/* todo: use map function to create tables */}
+        <div className="row">nft1</div>
+        <div className="row">nft2</div>
       </div>
     </div>
   );
