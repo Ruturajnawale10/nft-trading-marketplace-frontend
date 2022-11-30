@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../App.css";
 import "./Wallet.css";
+import { NavButton, NavButtonLink } from "../Navbar/NavbarElements";
 import WarningBanner from "../WarningBanners/WarningBanner";
 
 function Wallet() {
@@ -63,7 +64,11 @@ function Wallet() {
       (btc_withdraw > balance.btcbalance && e.target.id === "btc2") ||
       (eth_withdraw > balance.ethbalance && e.target.id === "eth2")
     ) {
-      setWarningBannerDiv(<WarningBanner msg={"Withdrawing amount should be less than available balance"} />);
+      setWarningBannerDiv(
+        <WarningBanner
+          msg={"Withdrawing amount should be less than available balance"}
+        />
+      );
       return;
     }
 
@@ -206,6 +211,21 @@ function Wallet() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <hr />
+      <div className="row">
+        <NavButton>
+          <NavButtonLink>Create new NFT</NavButtonLink>
+        </NavButton>
+      </div>
+      <div className="row">
+       {/* todo: use map function to create tables */}
+        <div className="row">
+          nft1
+        </div>
+        <div className="row">
+          nft2
         </div>
       </div>
     </div>
