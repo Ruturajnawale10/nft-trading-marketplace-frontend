@@ -27,6 +27,7 @@ const Login = () => {
           localStorage.setItem("user_id", response.data.id);
           localStorage.setItem("username", response.data.username);
           localStorage.setItem("nickname", response.data.nickname);
+          localStorage.setItem("is_verified", response.data.enabled);
           window.location = "/";
         }
       })
