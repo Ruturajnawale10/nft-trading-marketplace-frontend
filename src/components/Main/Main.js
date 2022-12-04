@@ -6,6 +6,7 @@ import Navbar from "../Navbar/Navbar";
 import Logout from "../Logout/Logout";
 import NFTBuyList from "../NFT/NFTBuyList";
 import Wallet from "../Wallet/Wallet";
+import VerifyRequest from "../Email_verify/VerifyRequest";
 
 class Main extends Component {
     render() {
@@ -16,6 +17,7 @@ class Main extends Component {
               <Route path="/" element={<NFTBuyList/>}/>
               <Route path="/user/register" element={< Register/>} />
               <Route path="/user/login" element={< Login/>} />
+              <Route path="/user/verify" element={< VerifyRequest/>} />
               <Route path="/user/logout" element={<Logout/>}/>
               <Route path="/wallet" element={<Wallet/>}/>
             </Routes>

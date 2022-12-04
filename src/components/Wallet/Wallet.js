@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../../App.css";
 import "./Wallet.css";
-import { NavButton, NavButtonLink } from "../Navbar/NavbarElements";
 import WarningBanner from "../WarningBanners/WarningBanner";
 import $ from "jquery";
 
@@ -21,6 +20,9 @@ function Wallet() {
   const [assetURL, setAssetURL] = useState(null);
 
   useEffect(() => {
+    if (!localStorage.getItem("is_verified")) {
+      window.location.href = "/user/verify";
+    }
     if (localStorage.getItem("wallet_id") == null) {
       axios
         .post("/wallet/create", {
@@ -101,7 +103,7 @@ function Wallet() {
           type: type,
           description: description,
           imageURL: imageURL,
-          assetURL: assetURL
+          assetURL: assetURL,
         })
         .then((response) => {
           if (response.status === 200) {

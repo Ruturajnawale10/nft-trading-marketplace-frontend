@@ -44,7 +44,7 @@ class Register extends Component {
       nickname: nickname
     }).then(response => {
       if (response.status === 201) {
-      window.location = '/user/login';
+      window.location = '/user/verify';
     }
   })
   .catch(error => {
