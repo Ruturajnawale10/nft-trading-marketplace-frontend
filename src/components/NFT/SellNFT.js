@@ -1,46 +1,44 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import "../../App.css";
 
 
-function NFTList() {
+function SellNFT() {
   let nickname = localStorage.getItem("nickname")
   let data = [
     {
       "id": 1,
       "name": "D",
       "image": "x.jpg",
-      "description": "lorem ipsum",
+      "description": "monkey token",
       "price": 39.00,
       "time": "October 13, 2014 11:19:00",
       "last_updated_time": "October 13, 2014 11:19:00",
       "type": "Fixed",
       "highest_price": 69.90,
-      "seller name": "amika"
+      "show offer": "yes"
     },
     {
       "id": 2,
       "name": "B",
       "image": "x.jpg",
-      "description": "lorem ipsum",
+      "description": "picsart token",
       "price": 39.00,
       "time": "October 13, 2014 11:11:00",
       "last_updated_time": "October 13, 2014 11:19:00",
       "type": "Auctioned",
-      "highest_price": 69.90,
-      "seller name": "Zeel"
+      "highest_price": 69.90
     },
     {
       "id": 3,
       "name": "C",
       "image": "x.jpg",
-      "description": "lorem ipsum",
+      "description": "just games things",
       "price": 39.00,
       "time": "October 12, 2014 11:12:00",
       "last_updated_time": "October 13, 2014 11:19:00",
       "type": "Auctioned",
-      "highest_price": 69.90,
-      "seller name": "dhwani"
+      "highest_price": 69.90
     },
   ]
   const [dataState, setDataState] = useState(data)
@@ -76,15 +74,17 @@ function NFTList() {
   }
   return (
 
+   
     <div className="container">
-      <div>
+        <div>
             <h1
               class="ta-center fs-title mx-auto"
               style={{ textAlign: "center" }}
             >
-              Dashboard
+              Seller Page
             </h1>
           </div>
+        <div><hr></hr></div>
       <div className="d-flex align-items-center">
         <div className="p-2">
         <strong>Sort By:</strong>
@@ -116,6 +116,7 @@ function NFTList() {
           {(type !== "Fixed") ? <th>Last Updated Time</th> : null}
           <th>Price</th>
           {(type !== "Fixed") ? <th>Highest Price</th> : null}
+          <th>Show Offer</th>
         </tr>
         {dataState.map((nft) => {
         return <tr key={nft.id}>
@@ -130,7 +131,20 @@ function NFTList() {
           {(type !== "Fixed") ? <td>{nft.last_updated_time}</td> : null}
           <td>{nft.price}</td>
           {(type !== "Fixed") ? <td>{nft.highest_price}</td> : null}
-          
+          <tr>
+          <div className="p-2">
+          <Link 
+          to = "/See"
+          state= {{
+            NFT: nft
+          }}>
+            <button type="button" className="btn btn-info" style={{color: "white", fontWeight: "bold"}}>Show Offers</button>
+            </Link>
+        {/* <Link className="btn btn-info" to = {{ pathname: "/See",details: {nft}}}>
+            Show Offer
+        </Link> */}
+          </div>
+          </tr>
         </tr>
       })}
       </table>
@@ -138,4 +152,4 @@ function NFTList() {
   );
 }
 
-export default NFTList;
+export default SellNFT;

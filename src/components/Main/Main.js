@@ -7,6 +7,8 @@ import Logout from "../Logout/Logout";
 import NFTBuyList from "../NFT/NFTBuyList";
 import Wallet from "../Wallet/Wallet";
 import VerifyRequest from "../Email_verify/VerifyRequest";
+import SellNFT from "../NFT/SellNFT";
+import ViewDetailedNFT from "../NFT/ViewDetailedNFT";
 
 class Main extends Component {
     render() {
@@ -14,6 +16,8 @@ class Main extends Component {
         <div>
         <Navbar/>
             <Routes>  
+              <Route path="/See" element={<ViewDetailedNFT/>}/>  
+              <Route path="/sellNFT" element={<SellNFT/>}/>
               <Route path="/" element={<NFTBuyList/>}/>
               <Route path="/user/register" element={< Register/>} />
               <Route path="/user/login" element={< Login/>} />
