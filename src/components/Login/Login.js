@@ -33,8 +33,8 @@ const Login = () => {
       })
       .catch((error) => {
         setDangerWarningBannerDiv(
-            <DangerWarningBanner msg="Invalid credentials" />
-          );
+          <DangerWarningBanner msg="Invalid credentials" />
+        );
       });
   }
 
@@ -91,6 +91,11 @@ const Login = () => {
             </Button>
           </Form>
           <br />
+          <br></br>
+          <Form.Text className="text-muted">
+            {/* <a href="/login">Sign in with Google</a> */}
+            <a href="#" onClick={() => {window.location = "http://localhost:8080/login"}}>Sign in with Google</a>
+          </Form.Text>
           <br></br>
           <Form.Text className="text-muted">
             Dont have an account? <a href="/user/register">Sign Up</a>
