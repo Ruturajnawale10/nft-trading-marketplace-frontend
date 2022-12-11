@@ -19,6 +19,8 @@ function Wallet() {
   const [imageURL, setImageURL] = useState(null);
   const [assetURL, setAssetURL] = useState(null);
 
+  const [onwNFT, setownNFT] = useState([])
+
   useEffect(() => {
     if (!localStorage.getItem("is_verified")) {
       window.location.href = "/user/verify";
@@ -31,6 +33,12 @@ function Wallet() {
         .then((response) => {
           if (response.status === 200) {
             localStorage.setItem("wallet_id", response.data.walletID);
+            axios
+              .get("/nft/owned/" + localStorage.getItem("wallet_id"), {})
+              .then((response) => {
+                console.log(response);
+                setownNFT(response.data)
+              });
             window.location.reload(false);
           }
         });
@@ -42,6 +50,12 @@ function Wallet() {
             ethbalance: response.data.ethbalance,
             btcbalance: response.data.btcbalance,
           });
+          axios
+              .get("/nft/owned/" + localStorage.getItem("wallet_id"), {})
+              .then((response) => {
+                console.log(response);
+                setownNFT(response.data)
+              });
         });
     }
   }, []);
@@ -54,7 +68,7 @@ function Wallet() {
       setWarningBannerDiv(<WarningBanner msg={"Amount should be non-zero"} />);
       return;
     }
-
+    
     axios
       .post("/wallet/balance/deposit", {
         walletID: localStorage.getItem("wallet_id"),
@@ -93,6 +107,15 @@ function Wallet() {
         }
       });
   };
+
+  const onAuctionClick = (id) =>{
+    console.log("Auction");
+    console.log(id);
+  }
+  const onSellClick = (e) =>{
+    console.log("sell");
+    
+  }
 
   const expand = () => {
     if (name && type && description && imageURL && assetURL) {
@@ -321,8 +344,45 @@ function Wallet() {
       </div>
       <div className="row">
         {/* todo: use map function to create tables */}
-        <div className="row">nft1</div>
-        <div className="row">nft2</div>
+        {/* <div className="row">nft1</div> */}
+        <table class="table table-hover" layout="auto">
+        <tr>
+          <th>Token ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>description</th>
+        </tr>
+        {onwNFT.length>0 && onwNFT.map((data) => {
+        return <tr key={data.id}>
+          <td width="15%">{data.tokenID}</td>
+          <td width="15%">{data.name}</td>
+          <td width="15%">{data.type}</td>
+          <td width="15%">{data.description}</td>
+          <td>
+          <div>
+                  <button className="btn btn-primary"
+                    type="button"
+                    onClick={onSellClick}>
+                    Sell
+                  </button>
+                </div>
+          </td>
+          <td>
+          <div>
+                  <button className="btn btn-success"
+                    type="button"
+                    value = {data.id}
+                    onClick={() => onAuctionClick(data.tokenID)}>
+                    Auction
+                  </button>
+                </div>
+          </td>
+          {/* <td width="35%">{data.price}</td>
+          <td width="35%">{data.time}</td> */}
+        </tr>
+      })}
+      </table>
+        
       </div>
     </div>
   );
