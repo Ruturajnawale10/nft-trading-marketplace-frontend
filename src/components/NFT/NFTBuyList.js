@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import "../../App.css";
 
 
 function NFTList() {
   let nickname = localStorage.getItem("nickname")
+
   let data = [
     {
       "id": 1,

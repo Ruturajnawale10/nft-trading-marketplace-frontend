@@ -10,6 +10,7 @@ import VerifyRequest from "../Email_verify/VerifyRequest";
 import SellNFT from "../NFT/SellNFT";
 import ViewDetailedNFT from "../NFT/ViewDetailedNFT";
 import LoginAuth2 from "../Login/LoginAuth2";
+import AuthSuccess from "../Login/AuthSuccess";
 
 class Main extends Component {
     render() {
@@ -26,6 +27,7 @@ class Main extends Component {
               <Route path="/user/logout" element={<Logout/>}/>
               <Route path="/login" element={< LoginAuth2/>} />
               <Route path="/wallet" element={<Wallet/>}/>
+              <Route path="/auth/success" element={<AuthSuccess/>}/>
             </Routes>
         </div>
       );
