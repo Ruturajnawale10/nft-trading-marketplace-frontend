@@ -10,13 +10,16 @@ import VerifyRequest from "../Email_verify/VerifyRequest";
 import SellNFT from "../NFT/SellNFT";
 import ViewDetailedNFT from "../NFT/ViewDetailedNFT";
 import LoginAuth2 from "../Login/LoginAuth2";
+//import PersonalTransactionStats from "../NFT/SystemTransactionStats";
+import SystemTransactionStats from "../NFT/SystemTransactionStats";
 
 class Main extends Component {
     render() {
       return (
         <div>
         <Navbar/>
-            <Routes>  
+            <Routes>
+              <Route path="/Personal" element={<SystemTransactionStats/>}/>
               <Route path="/See" element={<ViewDetailedNFT/>}/>  
               <Route path="/sellNFT" element={<SellNFT/>}/>
               <Route path="/" element={<NFTBuyList/>}/>
