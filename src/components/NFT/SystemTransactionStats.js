@@ -13,11 +13,14 @@ function Transactions() {
         console.log(response);
         setDataState(response.data);
       });
+
+     
     }
   }, []);
 
 
   const [dataState, setDataState] = useState()
+  const [dataState2, setDataState2] = useState()
   const [val, setVal] = useState(0)
   const [type, setType] = useState("")
   
@@ -134,29 +137,7 @@ function Transactions() {
 Count of total withdrawals, and total currency amount
 Initial system balance for this currency at the beginning of this period, and the current balance
 Count of total NFT sales, and total currency amount */}
-    {dataState && 
-      <table class="table table-hove">
-        <tr>
-          <th>Total Deposits</th>
-          <th>Total Amount Deposit</th>
-          <th>Total Withdraw</th>
-          <th>Total Amount Withdraw</th>
-          <th>Total Sales</th>
-          <th>Total NFTs Sold</th>
-        </tr>
-        {dataState.map((nft) => {
-          return (
-            <tr key={nft.id}>
-              <td>{nft.transactiontime}</td>
-              <td>{nft.type}</td>
-              <td>{nft.nftName}</td>
-              <td>{nft.currency}</td>
-              <td>{nft.newBalance}</td>
-              <td>{nft.buyerName}</td>
-            </tr>
-          );
-        })}
-      </table> }
+    
       </div>
     </div>
     

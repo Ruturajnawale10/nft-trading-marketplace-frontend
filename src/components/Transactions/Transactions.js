@@ -33,6 +33,7 @@ function Transactions() {
   //   },
   // ];
   const [data, setDataState] = useState(null);
+  const [data2, setDataState2] = useState(null);
   const [val, setVal] = useState(0);
   const [type, setType] = useState("");
 
@@ -42,6 +43,12 @@ function Transactions() {
         // localStorage.setItem("wallet_id", response.data.walletID);
         console.log(response);
         setDataState(response.data);
+      });
+
+      axios.get("/nft/transactions/stats", {}).then((response) => {
+        // localStorage.setItem("wallet_id", response.data.walletID);
+        console.log(response);
+        setDataState2(response.data);
       });
     }
   }, []);
@@ -146,6 +153,52 @@ function Transactions() {
             </tr>
           );
         })}
+      </table> }
+
+      {data2 && 
+      <table class="table table-hove">
+        <tr>
+          <th>Total Deposits BTC</th>
+          <th>Total Deposits ETH</th>
+          <th>Total Withdraw BTC</th>
+          <th>Total Withdraw ETH</th>
+
+        </tr>
+            <tr>
+              <td>{data2.totalBDeposit}</td>
+              <td>{data2.totalEDeposit}</td>
+              <td>{data2.totalBWithdraw}</td>
+              <td>{data2.totalEWithdraw}</td>
+              
+            </tr>
+          
+        
+      </table> }
+
+      {data2 && 
+      <table class="table table-hove">
+        <tr>
+         
+
+          <th>Total Sales ETH</th>
+          <th>Total Sales BTC</th>
+
+          <th>Total Transactions BTC</th>
+          <th>Total Transactions ETH</th>
+
+          <th>Total On Sale NFT</th>
+
+        </tr>
+            <tr>
+             
+              <td>{data2.totalPriceE}</td>
+              <td>{data2.totalPriceB}</td>
+              <td>{data2.totalCountB}</td>
+              <td>{data2.totalCountE}</td>
+              <td>{data2.onSaleNFTCount}</td>
+            </tr>
+          
+        
       </table> }
     </div>
   );
