@@ -18,6 +18,16 @@ function Wallet() {
   const [description, setDescription] = useState(null);
   const [imageURL, setImageURL] = useState(null);
   const [assetURL, setAssetURL] = useState(null);
+  const [sellNFT, setsell] = useState(null);
+  const [auctionNFT, setauction] = useState(null);
+
+  const [sellNFTP, setsellP] = useState(null);
+  const [auctionNFTP, setauctionP] = useState(null);
+
+  const [sellNFTID, setsellID] = useState(null);
+  const [auctionNFTID, setauctionID] = useState(null);
+
+
 
   const [onwNFT, setownNFT] = useState([])
 
@@ -111,9 +121,39 @@ function Wallet() {
   const onAuctionClick = (id) =>{
     console.log("Auction");
     console.log(id);
+    setauction(true)
+
   }
-  const onSellClick = (e) =>{
+  const onSellClick = (id) =>{
     console.log("sell");
+    setsellID(id)
+    setsell(true)
+    
+  }
+
+  const onSellClickSubmit = (e) =>{
+    console.log("sell time -> money money $$$");
+    // setsell(true)
+    if (
+      (sellNFTP === 0)
+    ) {
+      setWarningBannerDiv(<WarningBanner msg={"Amount should be non-zero"} />);
+      return;
+    }
+    console.log(sellNFTP);
+    console.log(sellNFTID);
+
+    axios
+      .post("/nft/sell", {
+        
+        price: sellNFTP,
+        tokenID: sellNFTID,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          window.location.reload(false);
+        }
+      });
     
   }
 
@@ -342,6 +382,34 @@ function Wallet() {
           onClick={expand}
         ></input>
       </div>
+      {
+      sellNFT&&
+      <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span id="btc" class="input-group-text">
+                    BTC
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  onChange={(e) => {
+                    setsellP(e.target.value);
+                  }}
+                  placeholder="0.00"
+                />
+                <div class="input-group-append">
+                  <button
+                    id="eth2"
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onClick={onSellClickSubmit}
+                  >
+                    Sell
+                  </button>
+                </div>
+              </div>
+        }
       <div className="row">
         {/* todo: use map function to create tables */}
         {/* <div className="row">nft1</div> */}
@@ -362,7 +430,7 @@ function Wallet() {
           <div>
                   <button className="btn btn-primary"
                     type="button"
-                    onClick={onSellClick}>
+                    onClick={() => onSellClick(data.tokenID)}>
                     Sell
                   </button>
                 </div>

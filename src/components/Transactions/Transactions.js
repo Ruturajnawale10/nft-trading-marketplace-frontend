@@ -1,40 +1,53 @@
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 import "../../App.css";
 
 function Transactions() {
-  var currentdate = new Date();
-  var datetime =
-    "Last Sync: " +
-    currentdate.getDate() +
-    "/" +
-    (currentdate.getMonth() + 1) +
-    "/" +
-    currentdate.getFullYear() +
-    " @ " +
-    currentdate.getHours() +
-    ":" +
-    currentdate.getMinutes() +
-    ":" +
-    currentdate.getSeconds();
-  let data = [
-    {
-      id: 1,
-      image:
-        "https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?cs=srgb&dl=pexels-pixabay-326058.jpg&fm=jpg",
-      time: datetime,
-      type: "Image",
-      name: "Mountain image",
-      currency: "BTC",
-      amount: 2,
-      remaining_balance: 16,
-      buyer: "Harry",
-      seller: "Ron",
-    },
-  ];
-  const [dataState, setDataState] = useState(data);
+  // var currentdate = new Date();
+  // var datetime =
+  //   "Last Sync: " +
+  //   currentdate.getDate() +
+  //   "/" +
+  //   (currentdate.getMonth() + 1) +
+  //   "/" +
+  //   currentdate.getFullYear() +
+  //   " @ " +
+  //   currentdate.getHours() +
+  //   ":" +
+  //   currentdate.getMinutes() +
+  //   ":" +
+  //   currentdate.getSeconds();
+  // let data = [
+  //   {
+  //     id: 1,
+  //     image:
+  //       "https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?cs=srgb&dl=pexels-pixabay-326058.jpg&fm=jpg",
+  //     time: datetime,
+  //     type: "Image",
+  //     name: "Mountain image",
+  //     currency: "BTC",
+  //     amount: 2,
+  //     remaining_balance: 16,
+  //     buyer: "Harry",
+  //     seller: "Ron",
+  //   },
+  // ];
+  const [data, setDataState] = useState(null);
   const [val, setVal] = useState(0);
   const [type, setType] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("username") != null) {
+      axios.get("/nft/transactions/all", {}).then((response) => {
+        // localStorage.setItem("wallet_id", response.data.walletID);
+        console.log(response);
+        setDataState(response.data);
+      });
+    }
+  }, []);
+
+
+
   let sortByName = () => {
     let d = data.sort((a, b) => a.name.localeCompare(b.name));
     setDataState(d);
@@ -105,35 +118,35 @@ function Transactions() {
           </select>
         </div>
       </div>
-
+    {data && 
       <table class="table table-hove">
         <tr>
           <th>Time</th>
           <th>Type</th>
           <th>NFT Name</th>
+          <th>NFT</th>
           <th>Currency</th>
           <th>Amount</th>
-          <th>Remaining balance</th>
           <th>Buyer</th>
           <th>Seller</th>
         </tr>
-        {dataState.map((nft) => {
+        {data.map((nft) => {
           return (
             <tr key={nft.id}>
-              <td>{nft.time}</td>
+              <td>{nft.transactiontime}</td>
               <td>{nft.type}</td>
-              <td>{nft.name}</td>
+              <td>{nft.nftName}</td>
               <td>
-                <img width={75} height={75} src={nft.image} alt="None" />
+                <img width={75} height={75} src="https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?cs=srgb&dl=pexels-pixabay-326058.jpg&fm=jpg" alt="None" />
               </td>
               <td>{nft.currency}</td>
-              <td>{nft.remaining_balance}</td>
-              <td>{nft.buyer}</td>
-              <td>{nft.seller}</td>
+              <td>{nft.newBalance}</td>
+              <td>{nft.buyerName}</td>
+              <td>{nft.sellerName}</td>
             </tr>
           );
         })}
-      </table>
+      </table> }
     </div>
   );
 }

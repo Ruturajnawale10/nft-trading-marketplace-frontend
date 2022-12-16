@@ -1,67 +1,33 @@
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 import "../../App.css";
 
 
 function Transactions() {
   let nickname = localStorage.getItem("nickname")
-  let data = [
-    {
-      "id": 1,
-      "total_deposit": 10,
-      "total_withdraw": 1,
-      "total_currency_amount": 8,
-      "initial_balance": 10,
-      "current_balance": 8,
-      "total_nft_sales": 90,
-      "name": "D",
-      "image": "x.jpg",
-      "description": "lorem ipsum",
-      "currency": "BTC",
-      "time": "October 13, 2014 11:19:00",
-    },
-    {
-      "id": 2,
-      "total_deposit": 10,
-      "total_withdraw": 1,
-      "total_currency_amount": 8,
-      "initial_balance": 10,
-      "current_balance": 8,
-      "total_nft_sales": 90,
-      "name": "amika",
-      "image": "x.jpg",
-      "description": "lorem ipsum",
-      "currency": "ETH",
-      "time": "October 13, 2014 11:11:00",
-     
-    },
-    {
-      "id": 3,
-      "total_deposit": 10,
-      "total_withdraw": 1,
-      "total_currency_amount": 8,
-      "initial_balance": 10,
-      "current_balance": 8,
-      "total_nft_sales": 90,
-      "name": "trupti",
-      "image": "x.jpg",
-      "description": "lorem ipsum",
-      "currency": "ETH",
-      "time": "October 12, 2014 11:12:00",
-    },
- 
-  ]
-  const [dataState, setDataState] = useState(data)
+
+  useEffect(() => {
+    if (localStorage.getItem("username") != null) {
+      axios.get("/nft/transactions/"+ localStorage.getItem("username"), {}).then((response) => {
+        // localStorage.setItem("wallet_id", response.data.walletID);
+        console.log(response);
+        setDataState(response.data);
+      });
+    }
+  }, []);
+
+
+  const [dataState, setDataState] = useState()
   const [val, setVal] = useState(0)
   const [type, setType] = useState("")
   
   
   let setTypeValue = (typeVal) => {
     setType(typeVal)
-    var result = data
+    var result = dataState
     if (typeVal.localeCompare("None") != 0) {
         if(typeVal.localeCompare("All")!= 0){
-                result = data.filter(obj => {
+                result = dataState.filter(obj => {
                 return obj.type === typeVal
         })
     }
@@ -71,7 +37,7 @@ function Transactions() {
   }
 
   let sortByTime = () => {
-    let d = data.sort((a, b) => {
+    let d = dataState.sort((a, b) => {
       let dt1 = new Date(a.time);
       let dt2 = new Date(b.time);
       return dt1-dt2;
@@ -133,40 +99,67 @@ function Transactions() {
         </div> */}
       </div>
       
+      
+        {dataState && 
       <table class="table table-hove">
         <tr>
-          <th>Id</th>
-          <th>Name</th>
           <th>Time</th>
-          <th>Image</th>
-          <th>Description</th>
+          <th>Type</th>
+          <th>NFT Name</th>
+          <th>NFT</th>
           <th>Currency</th>
-          <th>Total Deposits</th>
-          <th>Total Withdraws</th>
-          <th>Total Amount</th>
-          <th>Initial Balance</th>
-          <th>NFT Sales</th>
+          <th>Amount</th>
+          <th>Buyer</th>
+          <th>Seller</th>
         </tr>
         {dataState.map((nft) => {
-        return <tr key={nft.id}>
-          <td>{nft.id}</td>
-          <td>{nft.name}</td>
-          <td>{nft.time}</td>
-          <td>
-            <img width={75} height={75} src={nft.image} alt="None"/>
-          </td>
-          <td>{nft.description}</td>
-          <td>{nft.currency}</td>
-          <td>{nft.total_deposit}</td>
-          <td>{nft.total_withdraw}</td>
-          <td>{nft.total_currency_amount}</td>
-          <td>{nft.initial_balance}</td>
-          <td>{nft.total_nft_sales}</td>
-         
+          return (
+            <tr key={nft.id}>
+              <td>{nft.transactiontime}</td>
+              <td>{nft.type}</td>
+              <td>{nft.nftName}</td>
+              <td>
+                <img width={75} height={75} src="https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?cs=srgb&dl=pexels-pixabay-326058.jpg&fm=jpg" alt="None" />
+              </td>
+              <td>{nft.currency}</td>
+              <td>{nft.newBalance}</td>
+              <td>{nft.buyerName}</td>
+              <td>{nft.sellerName}</td>
+            </tr>
+          );
+        })}
+      </table> }
+      <div>
+      {/* Count of total deposits, and total currency amount
+Count of total withdrawals, and total currency amount
+Initial system balance for this currency at the beginning of this period, and the current balance
+Count of total NFT sales, and total currency amount */}
+    {dataState && 
+      <table class="table table-hove">
+        <tr>
+          <th>Total Deposits</th>
+          <th>Total Amount Deposit</th>
+          <th>Total Withdraw</th>
+          <th>Total Amount Withdraw</th>
+          <th>Total Sales</th>
+          <th>Total NFTs Sold</th>
         </tr>
-      })}
-      </table>
+        {dataState.map((nft) => {
+          return (
+            <tr key={nft.id}>
+              <td>{nft.transactiontime}</td>
+              <td>{nft.type}</td>
+              <td>{nft.nftName}</td>
+              <td>{nft.currency}</td>
+              <td>{nft.newBalance}</td>
+              <td>{nft.buyerName}</td>
+            </tr>
+          );
+        })}
+      </table> }
+      </div>
     </div>
+    
   );
 }
 

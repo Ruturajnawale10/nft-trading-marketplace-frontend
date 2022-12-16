@@ -11,6 +11,7 @@ import SellNFT from "../NFT/SellNFT";
 import ViewDetailedNFT from "../NFT/ViewDetailedNFT";
 import LoginAuth2 from "../Login/LoginAuth2";
 import SystemTransactionStats from "../NFT/SystemTransactionStats";
+import Transactions from "../Transactions/Transactions";
 
 class Main extends Component {
     render() {
